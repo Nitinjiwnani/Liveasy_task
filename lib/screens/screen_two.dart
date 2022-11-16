@@ -57,7 +57,7 @@ class _ScreenTwoState extends State<ScreenTwo> {
               height: 10,
             ),
             Text(
-              'You will receive a 6 digit code \n to verify next.',
+              'You\'ll receive a 6 digit code \n to verify next.',
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
