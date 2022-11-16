@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "724009743488-3ifsd7r9sdi6a1lsi13mhp2qmfbdjl9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.liveasy_task",
+            "certificate_hash": "0ecb0027322c2d59411a7418a546ede1b3515254"
+          }
+        },
+        {
           "client_id": "724009743488-i340c9i3vcd5qijbdpok848v8dj1l6q6.apps.googleusercontent.com",
           "client_type": 3
         }

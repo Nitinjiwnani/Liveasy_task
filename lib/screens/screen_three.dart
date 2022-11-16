@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:liveasy_task/screens/screen_two.dart';
 import 'package:pinput/pinput.dart';
 
 class ScreenThree extends StatefulWidget {
@@ -13,6 +15,7 @@ class ScreenThree extends StatefulWidget {
 }
 
 class _ScreenThreeState extends State<ScreenThree> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -38,6 +41,7 @@ class _ScreenThreeState extends State<ScreenThree> {
         color: Color.fromRGBO(234, 239, 243, 1),
       ),
     );
+    var code = "";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -61,32 +65,74 @@ class _ScreenThreeState extends State<ScreenThree> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please enter your mobile Number',
+              'Verify Phone',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              'You will receive a 4 digit code \n to verify next.',
+              'Code is sent to 6376553588',
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: 35,
+              height: 33,
             ),
             Pinput(
+              defaultPinTheme: defaultPinTheme.copyDecorationWith(
+                  color: Color.fromARGB(255, 150, 220, 242),
+                  borderRadius: BorderRadius.vertical()),
               length: 6,
               showCursor: true,
+              onChanged: (value) {
+                code = value;
+              },
             ),
             SizedBox(
-              height: 25,
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Didn\'t receive the code?',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Text(
+                    'Request Again?',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
             ),
             SizedBox(
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                      verificationId: ScreenTwo.verify,
+                      smsCode: code,
+                    );
+                    await auth.signInWithCredential(credential);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "profile", (route) => false);
+                  } catch (e) {
+                    print("Wrong OTP");
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   shape:
                       RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -101,16 +147,6 @@ class _ScreenThreeState extends State<ScreenThree> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Edit Phone Number ?',
-                      style: TextStyle(color: Colors.black),
-                    )),
-              ],
-            )
           ],
         )),
       ),

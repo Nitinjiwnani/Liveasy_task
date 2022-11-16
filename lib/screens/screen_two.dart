@@ -1,4 +1,5 @@
 import 'package:country_list_pick/country_list_pick.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,12 +8,15 @@ import 'package:liveasy_task/screens/screen_three.dart';
 class ScreenTwo extends StatefulWidget {
   const ScreenTwo({super.key});
 
+  static String verify = "";
+
   @override
   State<ScreenTwo> createState() => _ScreenTwoState();
 }
 
 class _ScreenTwoState extends State<ScreenTwo> {
   TextEditingController countrycode = TextEditingController();
+  var phone = "";
 
   @override
   void initState() {
@@ -98,7 +102,10 @@ class _ScreenTwoState extends State<ScreenTwo> {
                   ),
                   Expanded(
                       child: TextField(
-                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      phone = value;
+                    },
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                         border: InputBorder.none, hintText: "Mobile Number"),
                   )),
@@ -112,8 +119,17 @@ class _ScreenTwoState extends State<ScreenTwo> {
               height: 55,
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'otp');
+                onPressed: () async {
+                  await FirebaseAuth.instance.verifyPhoneNumber(
+                    phoneNumber: '${countrycode.text + phone}',
+                    verificationCompleted: (PhoneAuthCredential credential) {},
+                    verificationFailed: (FirebaseAuthException e) {},
+                    codeSent: (String verificationId, int? resendToken) {
+                      ScreenTwo.verify = verificationId;
+                      Navigator.pushNamed(context, 'otp');
+                    },
+                    codeAutoRetrievalTimeout: (String verificationId) {},
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   shape:

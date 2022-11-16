@@ -1,9 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:liveasy_task/screens/screen_five.dart';
+import 'package:liveasy_task/screens/screen_four.dart';
 import 'package:liveasy_task/screens/screen_one.dart';
 import 'package:liveasy_task/screens/screen_three.dart';
 import 'package:liveasy_task/screens/screen_two.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -23,7 +28,9 @@ class MyApp extends StatelessWidget {
       routes: {
         'screen_one': (context) => const ScreenOne(),
         'phone': (context) => ScreenTwo(),
-        'otp': (context) => ScreenThree()
+        'otp': (context) => ScreenThree(),
+        'profile': (context) => ScreenFour(),
+        'nextscreen': (context) => ScreenFive(),
       },
     );
   }
