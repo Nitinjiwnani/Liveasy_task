@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:liveasy_task/screens/screen_two.dart';
 
 class ScreenOne extends StatefulWidget {
   const ScreenOne({super.key});
@@ -54,7 +55,7 @@ class _ScreenOneState extends State<ScreenOne> {
             decoration: BoxDecoration(border: Border.all()),
             child: DropdownButton(
               value: dropdownValue,
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_drop_down,
               ),
               onChanged: (String? newValue) {
@@ -71,12 +72,17 @@ class _ScreenOneState extends State<ScreenOne> {
           SizedBox(
             height: 27,
           ),
-          InkWell(
-            child: Container(
-              alignment: Alignment.center,
-              width: 231,
-              height: 55,
-              color: Color.fromARGB(242, 4, 47, 83),
+          SizedBox(
+            height: 55,
+            width: 230,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'phone');
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                primary: Color.fromARGB(242, 4, 47, 83),
+              ),
               child: Text(
                 'NEXT',
                 style: TextStyle(
