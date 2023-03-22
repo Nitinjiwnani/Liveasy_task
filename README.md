@@ -1,4 +1,4 @@
-# liveasy_task
+# Phone number based authentication 
 
 A new Flutter project.
 
